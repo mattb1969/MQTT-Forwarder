@@ -1,0 +1,33 @@
+"""
+This contains all the various system wide settings rather than holding them in the main function
+
+This is an example file and gives format and elemements of the contents, but not all
+
+"""
+
+
+class variablesReceiver:
+    instance = "RECEIVER"
+    clientId = "MQTT Forwarder"
+    hostURL = "127.0.0.1"
+    username = "XXXXXXXXXXXXXX@ttn" 
+    apiKey = "XXXXXXXXXXXXXXXXXXXXXXXXXX.xxxxxxxxxxxxxxxx.YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
+    waitTime = 120
+    retry = 30
+    timeout = 300
+    errorGood = [0]
+    errorRetry = [3]
+    errorDict = {0: "Connected Successfully", 1:"Connection refused - incorrect protocol version", 2: "Connection refused - invalid client identifier",  
+        3: "Connection refused - server unavailable", 4: "Connection refused - bad username or password", 5: "Connection refused - not authorised"}
+
+
+class variablesSender:
+    instance = "SENDER"
+    clientId = "MQTT Forwarder"
+    hostURL = "127.0.0.1"
+    username = "myUsername"
+    password = "abscefgHIJKLMnopqrstuvwXYZ"
+    waitTime = 120
+    retry = 30
+    timeout = 300
+    pubTopic = "foler/to/publis/files/in"
