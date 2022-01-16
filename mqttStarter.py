@@ -15,6 +15,9 @@ def start_script():
     try:
         # Use 'run' to fire up the main program
         run(mainProgram, check=True) 
+    except KeyboardInterrupt:
+        # Keyboard interrupt, so stop
+        return
     except:
         # Script crashed, lets restart it!
         handle_crash()

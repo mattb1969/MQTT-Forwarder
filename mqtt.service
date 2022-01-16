@@ -1,5 +1,5 @@
 [Unit]
-Description=MQTT STarter Service
+Description=MQTT Starter Service
 After=multi-user.target
 Conflicts=getty@tty1.service
 
