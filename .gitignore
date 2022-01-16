@@ -1,4 +1,9 @@
 systemSettings.py
+mqttForwarder.l*
 .venv/*
 __pycache__/*
+
+
+
+
 
