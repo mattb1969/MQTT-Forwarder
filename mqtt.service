@@ -5,7 +5,7 @@ Conflicts=getty@tty1.service
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/python3 /mqttForwarder/MQTT-Forwarder/mqttStarter.py
+ExecStart=/usr/bin/python3 /home/ubuntu/MQTT-Forwarder/mqttStarter.py
 StandardInput=tty-force
 
 [Install]

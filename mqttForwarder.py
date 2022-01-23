@@ -19,8 +19,12 @@ import dictLogging
 
 import mqttTransceiver
 import mqttTransformer
-from systemSettings import variablesReceiver as varRec, variablesSender
+from systemSettings import variablesReceiver as varRec
 from systemSettings import variablesSender as varSend
+
+
+restartWaitTime = 2                 #Used to delay the restart of the main function
+
 
 def SetupLogging():
     """
@@ -77,8 +81,6 @@ def main():
     """
 
     endtime = 0.0
-
-    SetupLogging()
 
     # Configure Receiver
     receiver = mqttTransceiver.mqttTransceiver(varRec.instance, varRec.clientId, varRec.hostURL)
@@ -142,11 +144,32 @@ def main():
 
     return
 
+def handleCrash():
+    time.sleep(restartWaitTime)  # Restarts the script after 2 seconds
+    startScript()
 
 
+def startScript():
+    """
+    Routine to run the main funciton, capturing errors and restarting if failed
+    """
+
+    SetupLogging()
+
+    try:
+        # Use 'run' to fire up the main program
+        gbl_log.info("Main TRY loop started")
+        main() 
+    except KeyboardInterrupt:
+        # Keyboard interrupt, so stop
+        return
+    except:
+        # Script crashed, lets restart it!
+        gbl_log.info("Exception has been triggered")
+        handleCrash()
 
 
 if __name__ == "__main__":
-    main()
+    startScript()
 
 
