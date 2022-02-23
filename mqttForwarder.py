@@ -153,23 +153,26 @@ def startScript():
     """
     Routine to run the main funciton, capturing errors and restarting if failed
     """
-
-    SetupLogging()
+    gbl_log.info("Starting the startScript")
 
     try:
         # Use 'run' to fire up the main program
         gbl_log.info("Main TRY loop started")
+        print (1 / 0)
         main() 
     except KeyboardInterrupt:
         # Keyboard interrupt, so stop
         return
-    except:
+    except Exception as err:
         # Script crashed, lets restart it!
-        gbl_log.info("Exception has been triggered")
+        gbl_log.info("Exception has been triggered:%s", err)
+        gbl_log.error("Exception arguments:%s",err.args)
         handleCrash()
 
 
 if __name__ == "__main__":
+    SetupLogging()
+
     startScript()
 
 

@@ -207,7 +207,7 @@ class mqttTransceiver():
 
     def publish(self, topic, message):
         # Send some data to the broker
-        #ToDo RFeturns an object that include .rc that indicates errors
+        #ToDo Returns an object that include .rc that indicates errors
         self.mqtt.publish(topic, message)
         self.published = False
         self.log.debug("Message Published: %s", message)
