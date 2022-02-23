@@ -158,7 +158,6 @@ def startScript():
     try:
         # Use 'run' to fire up the main program
         gbl_log.info("Main TRY loop started")
-        print (1 / 0)
         main() 
     except KeyboardInterrupt:
         # Keyboard interrupt, so stop
