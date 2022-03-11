@@ -118,8 +118,8 @@ def main():
 
     #receiver.startLooping()
 
-    endtime = time.time() + 3000
-    while (time.time() < endtime):
+    #endtime = time.time() + 3000
+    while (True): # (time.time() < endtime):
 
         if receiver.dataReady():
             transformer.getData(receiver.getReceivedMessage())
@@ -155,18 +155,19 @@ def startScript():
     """
     gbl_log.info("Starting the startScript")
 
-    try:
-        # Use 'run' to fire up the main program
-        gbl_log.info("Main TRY loop started")
-        main() 
-    except KeyboardInterrupt:
-        # Keyboard interrupt, so stop
-        return
-    except Exception as err:
-        # Script crashed, lets restart it!
-        gbl_log.info("Exception has been triggered:%s", err)
-        gbl_log.error("Exception arguments:%s",err.args)
-        handleCrash()
+    while(True):
+        try:
+            # Use 'run' to fire up the main program
+            gbl_log.info("Main TRY loop started")
+            main() 
+        except KeyboardInterrupt:
+            # Keyboard interrupt, so stop
+            return
+        except Exception as err:
+            # Script crashed, lets restart it!
+            gbl_log.info("Exception has been triggered:%s", err)
+            gbl_log.error("Exception arguments:%s",err.args)
+            time.sleep(restartWaitTime)
 
 
 if __name__ == "__main__":
