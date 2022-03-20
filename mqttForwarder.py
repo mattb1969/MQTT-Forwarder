@@ -131,8 +131,8 @@ def main():
             
             #ToDo Add in a loop for connection with timeout
             #Bug This is currently not responding.
-            #while (not transmitter.publishStatus()):
-            #    time.sleep(0.1)
+            while (not transmitter.publishStatus()):
+                time.sleep(0.1)
         else:
             time.sleep(0.1)
 

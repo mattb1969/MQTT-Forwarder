@@ -51,10 +51,10 @@ class mqttTransceiver():
         #ToDo make the naming convention better and more standard.
         self.mqtt.on_connect = self.onConnectCallback
         self.mqtt.on_message = self.onReceive
-        #on subscribe
-        #on publish
-        #
+        self.mqtt.on_publish = self.onPublishCallback
 
+        #ToDo: on subscribe
+        
         return
     
     def connect(self, username, password):
@@ -207,17 +207,22 @@ class mqttTransceiver():
 
     def publish(self, topic, message):
         # Send some data to the broker
-        #ToDo Returns an object that include .rc that indicates errors
-        self.mqtt.publish(topic, message)
+        #rc, the result of the publishing. It could be MQTT_ERR_SUCCESS to indicate success, MQTT_ERR_NO_CONN if the client is not currently connected, or MQTT_ERR_QUEUE_SIZE when max_queued_messages_set is used to indicate that message is neither queued nor sent.
+        #mid is the message ID for the publish request. The mid value can be used to track the publish request by checking against the mid argument in the on_publish() callback if it is defined. wait_for_publish may be easier depending on your use-case.
+        response = ""
+        response = self.mqtt.publish(topic, message)
         self.published = False
-        self.log.debug("Message Published: %s", message)
+        self.log.info("Message Published: %s", message)
         self.log.debug("Message Queue published to:%s", topic)
+        self.log.debug("Result from publishing the message: %s, status: %s", response.rc, response.is_published)
+        self.log.debug("Message ID of the message published: %d", response.mid)
         return
     
     def onPublishCallback(self,client, userdata, mid):
         # Handle the message published
         self.published = True
-        self.log.debug("On Publish Callback Received now")
+        self.log.info("On Publish Callback Received now for message: %d", mid)
+        self.log.debug("On Publish Callback userdata: %s", userdata)
 
         return
 
