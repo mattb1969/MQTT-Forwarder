@@ -122,7 +122,7 @@ def main():
     while (True): # (time.time() < endtime):
 
         if receiver.dataReady():
-            gbl_log.debug("Message Recvevied and starting to process it")
+            gbl_log.debug("Message Recevied and starting to process it")
             transformer.getData(receiver.getReceivedMessage())
             transformer.transform("TTN")
             receiver.dataProcessed()
@@ -130,9 +130,11 @@ def main():
             #Send data
             transmitter.publish(varSend.pubTopic, transformer.decodedJsonMessage())
             
+            gbl_log.debug("Waiting for the message publish to be confirmed")
             #ToDo Add in a loop for connection with timeout
             while (not transmitter.publishStatus()):
                 time.sleep(0.1)
+            gbl_log.debug("Message publish confirmation loop completed")
         else:
             time.sleep(0.1)
 

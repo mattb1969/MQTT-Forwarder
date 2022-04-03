@@ -181,6 +181,7 @@ class mqttTransceiver():
         # It is not expected to be called externally.
 
         self.messageReceived = True
+        self.log.debug("dataProcessed has been set to True:%s", self.messageReceived)
 
         self.receivedMessage = message.payload.decode("utf-8")
 
@@ -203,6 +204,7 @@ class mqttTransceiver():
     def dataProcessed(self):
         # Used to respond back to confirm that the data received has been processed
         self.messageReceived = False
+        self.log.debug("dataProcessed has been set to False:%s", self.messageReceived)
         return
 
     def publish(self, topic, message):
@@ -214,7 +216,7 @@ class mqttTransceiver():
         self.published = False
         self.log.info("Message Published: %s", message)
         self.log.debug("Message Queue published to:%s", topic)
-        self.log.debug("Result from publishing the message: %s, status: %s", response.rc, response.is_published)
+        self.log.debug("Result from publishing the message: %s, status: %s", response.rc, (response.is_published = True))
         self.log.debug("Message ID of the message published: %d", response.mid)
         return
     
