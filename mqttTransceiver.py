@@ -216,7 +216,7 @@ class mqttTransceiver():
         self.published = False
         self.log.info("Message Published: %s", message)
         self.log.debug("Message Queue published to:%s", topic)
-        self.log.debug("Result from publishing the message: %s, status: %s", response.rc, (response.is_published = True))
+        self.log.debug("Result from publishing the message: %s, status: %s", response.rc, response.is_published)
         self.log.debug("Message ID of the message published: %d", response.mid)
         return
     
