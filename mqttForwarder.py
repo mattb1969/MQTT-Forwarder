@@ -41,8 +41,8 @@ def SetupLogging():
 
     return
 
-def checkConnected(mqttChannel,first=False):
-    # Check rthe status of the receiver and attempt to reconnect if required
+def checkConnected(mqttChannel,first=False, timeout=120, retry=30):
+    # Check the status of the receiver and attempt to reconnect if required
     # On first attempt, wait before reconnecting, else try reconnet
     # 
     starttime = time.time()
@@ -53,19 +53,20 @@ def checkConnected(mqttChannel,first=False):
     if(first):
         #This is the first time I have connected
         waittime = time.time()
+        first = True
 
     while (not mqttChannel.connectionStatus()):
-        if ((time.time() - waittime) > varRec.waitTime):
+        if ((time.time() - waittime) > timeout):
             # Exceeded waittime
             gbl_log.debug("Exceeded waittime, attempting reconnect")
-            mqttChannel.dis
+            mqttChannel.disconnect()
             mqttChannel.reconnect()
             waittime = time.time()
-        elif ((starttime + varRec.retry) > time.time()):
+        elif ((starttime + retry) > time.time()):
             # time delay has passed, try reconnecting
             gbl_log.debug("Retry time exceeded, trying reconnect")
             mqttChannel.reconnect()
-        elif ((starttime + varRec.timeout) < time.time()):
+        elif ((starttime + timeout) < time.time()):
             # Reached timeout, therefore abondon attempt
             gbl_log.info("Failed to get a positive conection status, exitting wait loop")
             break
@@ -90,10 +91,10 @@ def main():
 
     receiver.startLooping()
 
-    #checkConnected(receiver, True)
-    while (not receiver.connectionStatus()):
-        gbl_log.info("Error code:%s", receiver.connectionErrorCode())
-        time.sleep(0.1)
+    checkConnected(receiver, True, varRec.waitTime, varRec.retry)
+    #while (not receiver.connectionStatus()):
+    #    gbl_log.info("Receiver Error code:%s", receiver.connectionErrorCode())
+    #    time.sleep(0.1)
 
     #ToDo Add these to the System Settings class
     receiver.subscription("#")
@@ -108,9 +109,10 @@ def main():
 
     transmitter.startLooping()
 
-    #checkConnected(transmitter, True)
-    while (not transmitter.connectionStatus()):
-        time.sleep(0.1)
+    checkConnected(transmitter, True, varSend.waitTime)
+    #while (not transmitter.connectionStatus()):
+    #    gbl_log.info("Transmitter Error code:%s", transmitter.connectionErrorCode())
+    #    time.sleep(0.1)
 
     # Configure Transformer
     transformer = mqttTransformer.mqttTransformer()
@@ -128,6 +130,7 @@ def main():
             receiver.dataProcessed()
 
             #Send data
+            checkConnected(transmitter, True, varSend.waitTime)
             transmitter.publish(varSend.pubTopic, transformer.decodedJsonMessage())
             
             gbl_log.debug("Waiting for the message publish to be confirmed")

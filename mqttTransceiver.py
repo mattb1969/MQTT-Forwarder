@@ -125,19 +125,6 @@ class mqttTransceiver():
         self.log.debug("Stopped Looping of background thread")
         return
 
-    def disconnect(self):
-        #ToDo do something here
-
-        # Will generate a on_disconnect callback
-
-        return
-
-    def reconnect(self):
-        #do something here
-        self.mqtt.reconnect()
-        self.log.info("Reconection attempt started")
-        return
-
     def subscription(self, topic, qos=0):
         #Subscribe to a topic.
         #can be called multiple times for multiple topics
