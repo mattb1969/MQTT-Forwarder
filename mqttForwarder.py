@@ -89,7 +89,7 @@ def main():
 
     receiver.startLooping()
 
-    checkConnected(receiver, True, varRec.waitTime, varRec.retry)
+    checkConnected(receiver, True, varRec.connectionWaitTime, varRec.connectionRetry)
     #while (not receiver.connectionStatus()):
     #    gbl_log.info("Receiver Error code:%s", receiver.connectionErrorCode())
     #    time.sleep(0.1)
@@ -107,7 +107,7 @@ def main():
 
     transmitter.startLooping()
 
-    checkConnected(transmitter, True, varSend.waitTime)
+    checkConnected(transmitter, True, varSend.connectionWaitTime)
     #while (not transmitter.connectionStatus()):
     #    gbl_log.info("Transmitter Error code:%s", transmitter.connectionErrorCode())
     #    time.sleep(0.1)
