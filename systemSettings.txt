@@ -13,8 +13,8 @@ class variablesReceiver:
     username = "XXXXXXXXXXXXXX@ttn" 
     apiKey = "XXXXXXXXXXXXXXXXXXXXXXXXXX.xxxxxxxxxxxxxxxx.YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
     waitTime = 120
-    retry = 30
-    timeout = 300
+    connectionTimeout = 30
+    connectionTimeout = 300
     errorGood = [0]
     errorRetry = [3]
     errorDict = {0: "Connected Successfully", 1:"Connection refused - incorrect protocol version", 2: "Connection refused - invalid client identifier",  
@@ -28,6 +28,7 @@ class variablesSender:
     username = "myUsername"
     password = "abscefgHIJKLMnopqrstuvwXYZ"
     waitTime = 120
-    retry = 30
-    timeout = 300
+    connectionTimeout = 30
+    connectionTimeout = 300
+    publishTimeout = 30
     pubTopic = "foler/to/publis/files/in"

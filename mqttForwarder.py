@@ -13,9 +13,6 @@ import logging
 import logging.config
 import dictLogging
 
-# Removed as no longer used
-#import systemSettings as SS
-
 
 import mqttTransceiver
 import mqttTransformer
@@ -82,6 +79,7 @@ def main():
     """
 
     endtime = 0.0
+    starttime = 0.0
 
     # Configure Receiver
     receiver = mqttTransceiver.mqttTransceiver(varRec.instance, varRec.clientId, varRec.hostURL)
@@ -135,9 +133,15 @@ def main():
             
             gbl_log.debug("Waiting for the message publish to be confirmed")
             #ToDo Add in a loop for connection with timeout
+            starttime = time.time()
             while (not transmitter.publishStatus()):
                 time.sleep(0.1)
-            gbl_log.debug("Message publish confirmation loop completed")
+                if ((starttime + varSend.publishTimeout) < time.time()):
+                    # Reached timeout, therefore abondon attempt
+                    gbl_log.info("Failed to get a positive send status, abonding message")
+                    break
+
+            gbl_log.debug("Message publish loop completed")
         else:
             time.sleep(0.1)
 
